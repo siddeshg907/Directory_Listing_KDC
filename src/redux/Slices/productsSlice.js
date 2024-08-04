@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  const response = await fetch('http://localhost:3000/products');
+  const response = await fetch('https://directory-api.onrender.com/products');
   return response.json();
 });
 

@@ -9,7 +9,7 @@ const AddProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/Lists');
+        const response = await fetch('https://directory-api.onrender.com/Lists');
         const data = await response.json();
         setProductData(data);
       } catch (error) {
@@ -62,7 +62,7 @@ const AddProducts = () => {
             outsideDia: ''
           };
   
-          const response = await fetch('http://localhost:3000/products', {
+          const response = await fetch('https://directory-api.onrender.com/products', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
