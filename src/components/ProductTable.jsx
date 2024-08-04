@@ -1,6 +1,10 @@
+// src/components/ProductTable.jsx
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateProduct } from '../redux/Slices/productsSlice';
 
-const ProductTable = ({ products, onUpdate }) => {
+const ProductTable = ({ products }) => {
+  const dispatch = useDispatch();
   const [expandedRow, setExpandedRow] = useState(null);
   const [editData, setEditData] = useState({
     material: '',
@@ -42,7 +46,7 @@ const ProductTable = ({ products, onUpdate }) => {
 
   const handleUpdate = async (id) => {
     try {
-      await onUpdate(id, editData);
+      dispatch(updateProduct({ id, ...editData }));
       // Collapse the row after update
       setExpandedRow(null);
     } catch (error) {
@@ -57,8 +61,8 @@ const ProductTable = ({ products, onUpdate }) => {
   return (
     <table className="min-w-full bg-white border border-gray-300">
       <thead>
-        <tr>
-          <th className="py-2 px-4 border-b">Products</th>
+        <tr className='bg-blue-300'>
+          <th className="py-2 px-4 border-b"><input type="checkbox"/> Products</th>
           <th className="py-2 px-4 border-b">Action</th>
           <th className="py-2 px-4 border-b">Product Details</th>
           <th className="py-2 px-4 border-b">Price in Unit</th>
@@ -68,7 +72,7 @@ const ProductTable = ({ products, onUpdate }) => {
         {products.map((item) => (
           <React.Fragment key={item.id}>
             <tr>
-              <td className="py-2 px-4 border-b">{item.title}</td>
+              <td className="py-2 px-4 border-b"><input type="checkbox" className='m-2'/>{item.title}</td>
               <td className="py-2 px-4 border-b">
                 <button
                   className="text-blue-500 mr-2"
@@ -76,6 +80,7 @@ const ProductTable = ({ products, onUpdate }) => {
                 >
                   {expandedRow === item.id ? 'Collapse' : 'Quick Edit'}
                 </button>
+                <span>{" | "}</span>
                 <button
                   className="text-blue-500"
                   onClick={() => handleExpand(item.id)}
@@ -84,8 +89,26 @@ const ProductTable = ({ products, onUpdate }) => {
                 </button>
               </td>
               <td className="py-2 px-4 border-b">
+                {`Material: ${item.material}, Unit Length: ${item.length}, Shape: ${item.shape}, Thickness: ${item.thickness}, Surface Finish: ${item.surfaceFinish}, Outside Dia.: ${item.outsideDia}`.slice(0, 60) + '...'}
+              </td>
+              <td className="py-2 px-4 border-b">
                 {expandedRow === item.id ? (
-                  <div>
+                  <input
+                    type="text"
+                    name="price"
+                    value={editData.price}
+                    onChange={handleInputChange}
+                    className="border p-2 rounded w-full"
+                  />
+                ) : (
+                  `${item.price}/KG`
+                )}
+              </td>
+            </tr>
+            {expandedRow === item.id && (
+              <tr>
+                <td colSpan="4" className="py-2 px-4 border-b bg-gray-100">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block mb-1">Material:</label>
                       <input
@@ -93,7 +116,7 @@ const ProductTable = ({ products, onUpdate }) => {
                         name="material"
                         value={editData.material}
                         onChange={handleInputChange}
-                        className="border p-2 rounded mb-2 w-full"
+                        className="border p-2 rounded w-full"
                       />
                     </div>
                     <div>
@@ -103,7 +126,7 @@ const ProductTable = ({ products, onUpdate }) => {
                         name="shape"
                         value={editData.shape}
                         onChange={handleInputChange}
-                        className="border p-2 rounded mb-2 w-full"
+                        className="border p-2 rounded w-full"
                       />
                     </div>
                     <div>
@@ -113,7 +136,7 @@ const ProductTable = ({ products, onUpdate }) => {
                         name="length"
                         value={editData.length}
                         onChange={handleInputChange}
-                        className="border p-2 rounded mb-2 w-full"
+                        className="border p-2 rounded w-full"
                       />
                     </div>
                     <div>
@@ -123,7 +146,7 @@ const ProductTable = ({ products, onUpdate }) => {
                         name="thickness"
                         value={editData.thickness}
                         onChange={handleInputChange}
-                        className="border p-2 rounded mb-2 w-full"
+                        className="border p-2 rounded w-full"
                       />
                     </div>
                     <div>
@@ -133,7 +156,7 @@ const ProductTable = ({ products, onUpdate }) => {
                         name="surfaceFinish"
                         value={editData.surfaceFinish}
                         onChange={handleInputChange}
-                        className="border p-2 rounded mb-2 w-full"
+                        className="border p-2 rounded w-full"
                       />
                     </div>
                     <div>
@@ -143,51 +166,24 @@ const ProductTable = ({ products, onUpdate }) => {
                         name="outsideDia"
                         value={editData.outsideDia}
                         onChange={handleInputChange}
-                        className="border p-2 rounded mb-2 w-full"
+                        className="border p-2 rounded w-full"
                       />
                     </div>
-                    <div>
-                      <label className="block mb-1">Price:</label>
-                      <input
-                        type="text"
-                        name="price"
-                        value={editData.price}
-                        onChange={handleInputChange}
-                        className="border p-2 rounded mb-2 w-full"
-                      />
-                    </div>
-                    <div className="flex gap-2 mt-2">
-                      <button
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
-                        onClick={() => handleUpdate(item.id)}
-                      >
-                        Update
-                      </button>
-                      <button
-                        className="bg-gray-300 text-black px-4 py-2 rounded"
-                        onClick={handleCancel}
-                      >
-                        Cancel
-                      </button>
-                    </div>
                   </div>
-                ) : (
-                  <div>
-                    Material: {item.material}<br />
-                    Unit Length: {item.length}<br />
-                    Shape: {item.shape}<br />
-                    Thickness: {item.thickness}<br />
-                    Surface Finish: {item.surfaceFinish}<br />
-                    Outside Dia.: {item.outsideDia}
+                  <div className="flex gap-2 mt-4">
+                    <button
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                      onClick={() => handleUpdate(item.id)}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="bg-gray-300 text-black px-4 py-2 rounded"
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </button>
                   </div>
-                )}
-              </td>
-              <td className="py-2 px-4 border-b">{item.price}/KG</td>
-            </tr>
-            {expandedRow === item.id && (
-              <tr>
-                <td colSpan="4" className="py-2 px-4 border-b bg-gray-100">
-                  {/* This row expands below the main row */}
                 </td>
               </tr>
             )}

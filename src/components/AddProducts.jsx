@@ -45,46 +45,49 @@ const AddProducts = () => {
 
   const handleSubmit = async () => {
     if (selectedProduct && selectedMaterial && selectedGrades.size > 0) {
-      const title = `Grades: ${Array.from(selectedGrades).join(', ')}`;
-      const newProduct = {
-        id: Date.now().toString(), // Generate a unique ID
-        title: title,
-        price: 350,
-        material: selectedMaterial,
-        shape: '',
-        length: '',
-        thickness: '',
-        surfaceFinish: '',
-        outsideDia: ''
-      };
-
+      const gradesArray = Array.from(selectedGrades);
+      
       try {
-        const response = await fetch('http://localhost:3000/products', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(newProduct)
-        });
-
-        if (response.ok) {
-          alert('Product added successfully!');
-          // Optionally, reset the form here
-          setSelectedProduct('');
-          setSelectedMaterial('');
-          setSelectedGrades(new Set());
-        } else {
-          alert('Error adding product');
-        }
+        // Use Promise.all to handle multiple asynchronous operations
+        await Promise.all(gradesArray.map(async (grade) => {
+          const newProduct = {
+            id: Date.now().toString() + '-' + grade, // Append grade to ensure unique IDs
+            title: grade,
+            price: 350,
+            material: selectedMaterial,
+            shape: '',
+            length: '',
+            thickness: '',
+            surfaceFinish: '',
+            outsideDia: ''
+          };
+  
+          const response = await fetch('http://localhost:3000/products', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newProduct)
+          });
+  
+          if (!response.ok) {
+            throw new Error('Error adding product');
+          }
+        }));
+  
+        alert('Products added successfully!');
+        // Optionally, reset the form here
+        setSelectedProduct('');
+        setSelectedMaterial('');
+        setSelectedGrades(new Set());
       } catch (error) {
         console.error('Error submitting product:', error);
-        alert('Error adding product');
+        alert('Error adding products');
       }
     } else {
       alert('Please select a product, material, and at least one grade.');
     }
   };
-
   const getProductMaterials = (productName) => {
     const product = productData.find(product => product.name === productName);
     return product ? product.materials : [];
