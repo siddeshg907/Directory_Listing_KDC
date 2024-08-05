@@ -1,5 +1,6 @@
 # Directory Listing
-A full stack app in which user can manage the tasks. Every user can create his own tasks and also update and delete the task.
+A web app in which user can manage the Directory List. Also add and edit the products.
+
 
 ## Deployed Link
 **Frontend** https://cute-capybara-a799db.netlify.app/
