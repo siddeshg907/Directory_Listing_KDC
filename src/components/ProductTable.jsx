@@ -1,7 +1,6 @@
-// src/components/ProductTable.jsx
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateProduct } from '../redux/Slices/productsSlice';
+import { fetchProducts } from '../redux/Slices/productsSlice';
 
 const ProductTable = ({ products }) => {
   const dispatch = useDispatch();
@@ -24,6 +23,7 @@ const ProductTable = ({ products }) => {
       const product = products.find(p => p.id === id);
       if (product) {
         setEditData({
+          title: product.title,
           material: product.material || '',
           shape: product.shape || '',
           length: product.length || '',
@@ -46,9 +46,19 @@ const ProductTable = ({ products }) => {
 
   const handleUpdate = async (id) => {
     try {
-      dispatch(updateProduct({ id, ...editData }));
-      // Collapse the row after update
-      setExpandedRow(null);
+      const response = await fetch(`https://directory-api.onrender.com/products/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(editData)
+      });
+      if (response.ok) {
+        dispatch(fetchProducts());
+        setExpandedRow(null);
+      } else {
+        console.error('Failed to update product:', response.statusText);
+      }
     } catch (error) {
       console.error('Error updating product:', error);
     }

@@ -78,6 +78,10 @@ const Home = () => {
     await dispatch(updateProduct({ id, ...updatedData }));
   };
 
+  const handleRefresh = () => {
+    dispatch(fetchProducts());
+  };
+
   const displayedProducts = filteredProducts.slice(0, displayCount);
 
   return (
@@ -85,7 +89,7 @@ const Home = () => {
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button
-            className="bg-blue-500 text-white py-2 px-4 rounded"
+            className="bg-blue-500 text-white py-2 px-4 rounded-full"
             onClick={handleOpenModal}
           >
             + Add Products
@@ -97,7 +101,7 @@ const Home = () => {
       <div className="mb-4">
         <input
           type="text"
-          className="border p-2 mr-2"
+          className="border p-2 mr-2 rounded-lg"
           placeholder="Search..."
           value={searchTerm}
           onChange={handleSearch}
@@ -159,7 +163,7 @@ const Home = () => {
       <ProductTable products={displayedProducts} onUpdate={handleUpdate} />
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-          <AddProducts onClose={handleCloseModal} />
+          <AddProducts onClose={handleCloseModal} onAddProduct={handleRefresh} />
         </Modal>
       )}
     </div>

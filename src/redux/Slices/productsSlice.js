@@ -1,4 +1,4 @@
-// src/features/productsSlice.js
+// redux/Slices/productsSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {

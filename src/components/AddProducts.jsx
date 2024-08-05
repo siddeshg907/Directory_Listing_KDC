@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const AddProducts = () => {
+const AddProducts = ({ onAddProduct }) => {
   const [productData, setProductData] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedMaterial, setSelectedMaterial] = useState('');
@@ -76,18 +76,16 @@ const AddProducts = () => {
         }));
   
         alert('Products added successfully!');
-        // Optionally, reset the form here
-        setSelectedProduct('');
-        setSelectedMaterial('');
-        setSelectedGrades(new Set());
+        onAddProduct(); // Call the callback function to refresh the product list
       } catch (error) {
-        console.error('Error submitting product:', error);
-        alert('Error adding products');
+        console.error('Error adding products:', error);
+        alert('Error adding products. Please try again.');
       }
     } else {
       alert('Please select a product, material, and at least one grade.');
     }
   };
+
   const getProductMaterials = (productName) => {
     const product = productData.find(product => product.name === productName);
     return product ? product.materials : [];
