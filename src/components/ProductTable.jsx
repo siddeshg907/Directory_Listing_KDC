@@ -103,13 +103,29 @@ const ProductTable = ({ products }) => {
               </td>
               <td className="py-2 px-4 border-b">
                 {expandedRow === item.id ? (
+                  <div className="flex items-center">
+                  <select
+                    name="currency"
+                    className="border rounded-l-full px-4 py-2 bg-white border-gray-300 "
+                  >
+                    <option value="INR">INR</option>
+                    <option value="USD">USD</option>
+                  </select>
                   <input
                     type="text"
                     name="price"
                     value={editData.price}
                     onChange={handleInputChange}
-                    className="border p-2 rounded w-full"
+                    className="border-t border-b border-gray-300 rounded-none px-1 py-2 flex-1 w-10"
                   />
+                  <select
+                    name="unit"
+                    className="border rounded-r-full px-4 py-2 bg-slate-400 text-white font-bold"
+                  >
+                    <option value="KG">KG</option>
+                    <option value="MTR">MTR</option>
+                  </select>
+                </div>
                 ) : (
                   `${item.price}/KG`
                 )}
@@ -119,64 +135,64 @@ const ProductTable = ({ products }) => {
               <tr>
                 <td colSpan="4" className="py-2 px-4 border-b bg-gray-100">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block mb-1">Material:</label>
+                    <div className="flex items-center">
+                      <label className="block mb-1 w-1/3">Material:</label>
                       <input
                         type="text"
                         name="material"
                         value={editData.material}
                         onChange={handleInputChange}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded-full w-2/3"
                       />
                     </div>
-                    <div>
-                      <label className="block mb-1">Shape:</label>
+                    <div className="flex items-center">
+                      <label className="block mb-1 w-1/3">Shape:</label>
                       <input
                         type="text"
                         name="shape"
                         value={editData.shape}
                         onChange={handleInputChange}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded-full w-2/3"
                       />
                     </div>
-                    <div>
-                      <label className="block mb-1">Length:</label>
+                    <div className="flex items-center">
+                      <label className="block mb-1 w-1/3">Length:</label>
                       <input
                         type="text"
                         name="length"
                         value={editData.length}
                         onChange={handleInputChange}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded-full w-2/3"
                       />
                     </div>
-                    <div>
-                      <label className="block mb-1">Thickness:</label>
+                    <div className="flex items-center">
+                      <label className="block mb-1 w-1/3">Thickness:</label>
                       <input
                         type="text"
                         name="thickness"
                         value={editData.thickness}
                         onChange={handleInputChange}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded-full w-2/3"
                       />
                     </div>
-                    <div>
-                      <label className="block mb-1">Surface Finish:</label>
+                    <div className="flex items-center">
+                      <label className="block mb-1 w-1/3">Surface Finish:</label>
                       <input
                         type="text"
                         name="surfaceFinish"
                         value={editData.surfaceFinish}
                         onChange={handleInputChange}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded-full w-2/3"
                       />
                     </div>
-                    <div>
-                      <label className="block mb-1">Outside Dia.:</label>
+                    <div className="flex items-center">
+                      <label className="block mb-1 w-1/3">Outside Dia.:</label>
                       <input
                         type="text"
                         name="outsideDia"
                         value={editData.outsideDia}
                         onChange={handleInputChange}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded-full w-2/3"
                       />
                     </div>
                   </div>

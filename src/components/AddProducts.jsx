@@ -97,6 +97,7 @@ const AddProducts = ({ onAddProduct }) => {
 
   return (
     <div className="flex flex-col h-full">
+      <h1 className='text-xl font-bold mb-2'>Add Product</h1>
       <div className="flex-grow flex overflow-hidden">
         {/* Products List */}
         <div className="w-1/3 border-r border-gray-200 overflow-hidden">
@@ -171,9 +172,9 @@ const AddProducts = ({ onAddProduct }) => {
       </div>
 
       {/* Fixed Submit Button */}
-      <div className="p-4 border-t border-gray-200 bg-white">
+      <div className="p-2 border-t border-gray-200 bg-white flex justify-center ">
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+          className="bg-blue-500 text-white px-10 py-3 rounded-lg  "
           onClick={handleSubmit}
         >
           Submit
